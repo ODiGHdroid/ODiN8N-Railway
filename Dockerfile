@@ -1,15 +1,24 @@
-FROM n8nio/n8n:latest
+FROM node:16
 
-ENV N8N_BASIC_AUTH_ACTIVE=true
-ENV N8N_BASIC_AUTH_USER=admin
-ENV N8N_BASIC_AUTH_PASSWORD=yourpassword
-
-EXPOSE 5678
-
-CMD ["n8n", "start"]
-
+# Логування для дебагу
 RUN echo "Starting build process..."
+
+# Встановлюємо робочу директорію
+WORKDIR /app
+
+# Копіюємо всі файли в контейнер
+COPY . .
+
+# Логування для перевірки
+RUN echo "Installing dependencies..."
+
+# Встановлюємо залежності
 RUN npm install
-RUN echo "Finished installing dependencies"
-RUN npm run build
-RUN echo "Finished building"
+
+RUN echo "Dependencies installed."
+
+# Логування під час запуску
+RUN echo "Running app..."
+
+# Вказуємо команду для запуску додатку
+CMD ["npm", "start"]
